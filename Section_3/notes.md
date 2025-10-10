@@ -11,3 +11,8 @@
             USER <================> WEB SERVER
                     response            (monolithic)
         ``` 
+## **First web app :**
+    * go mod init , make a file that module name and the go version
+
+## **HTML Templates :**
+    * 
