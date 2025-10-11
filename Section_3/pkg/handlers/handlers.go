@@ -1,8 +1,9 @@
 package handlers
 
 import (
-	"main/pkg/rendrer"
 	"net/http"
+
+	"github.com/ihtgoot/i_learn/Section_3/pkg/rendrer"
 )
 
 // handeler of home page

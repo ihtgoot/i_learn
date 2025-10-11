@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"main/pkg/handlers"
-	"main/pkg/helper"
 	"net/http"
+
+	"github.com/ihtgoot/i_learn/Section_3/pkg/handlers"
+	"github.com/ihtgoot/i_learn/Section_3/pkg/helper"
 )
 
 const portNumber string = ":8080"

@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{{template "base" .}}
+
+{{define "content"}}    
     <h1>hi home</h1>
-    <tb>
-        <tr>hi</tr>
-        <tr>there</tr>
-        <tr>welcome</tr>
-        <tr>hello there</tr>
-        <tr>how is life</tr>
-        <tr>this is cool</tr>
-        <tr>really cool idk</tr>
-        <tr>i hate my life</tr>
-        <tr>fuck lpu</tr>
-        <tr>i will not jump in march</tr>
-    </tb>
-</body>
-</html>
+    <table>
+        <tr><td>hi</td></tr>
+        <tr><td>there</td></tr>
+        <tr><td>welcome</td></tr>
+        <tr><td>hello there</td></tr>
+        <tr><td>how is life</td></tr>
+        <tr><td>this is cool</td></tr>
+        <tr><td>really cool idk</td></tr>
+        <tr><td>i hate my life</td></tr>
+        <tr><td>fuck lpu</td></tr>
+        <tr><td>i will not jump in march</td></tr>
+    </table>
+{{end}}
