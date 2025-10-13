@@ -1,16 +1,18 @@
 package rendrer
 
 import (
+	"bytes"
 	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"path/filepath"
 )
 
 // render templete server as a wrapper and a reader
 // a layout and a template from folder /templete to describe writer
 
-func RenderTemplateTemp(w http.ResponseWriter, tpml string) {
+func RenderTemplateTempV0(w http.ResponseWriter, tpml string) {
 	parseTemplate, err := template.ParseFiles("/home/ihtgoot/web_dev/Section_3/templates/"+tpml, "/home/ihtgoot/web_dev/Section_3/templates/base-layout.html")
 	if err != nil {
 		fmt.Println("Error parsing templates:", err)
@@ -25,17 +27,17 @@ func RenderTemplateTemp(w http.ResponseWriter, tpml string) {
 	}
 }
 
-var templeteCache = make(map[string]*template.Template) //this is our cache : any time ewe can sefch out template and it return the whole content
-
-func RenderTemplate(w http.ResponseWriter, t string) {
+// custm template cache
+var templeteCacheV0 = make(map[string]*template.Template) //this is our cache : any time ewe can sefch out template and it return the whole conten
+func RenderTemplateCacheDynamic(w http.ResponseWriter, t string) {
 	var tmpl *template.Template
 	var err error
 
-	//check wether if we have already cached out templete : whast in cache
-	_, inMap := templeteCache[t] // checks weather something like t in in cache
+	//check we there if we have already cached out templete : whast in cache
+	_, inMap := templeteCacheV0[t] // checks weather something like t in in cache
 	if !inMap {
 		// need to create templete
-		err = createTempleteCache(t)
+		err = createTempleteCacheV0(t)
 		if err != nil {
 			log.Println(err)
 		}
@@ -44,7 +46,7 @@ func RenderTemplate(w http.ResponseWriter, t string) {
 		log.Println("using from cache")
 	}
 
-	tmpl = templeteCache[t]
+	tmpl = templeteCacheV0[t]
 
 	err = tmpl.Execute(w, nil)
 	if err != nil {
@@ -52,14 +54,11 @@ func RenderTemplate(w http.ResponseWriter, t string) {
 	}
 }
 
-// this is the simplest solution ; wors well if small no of files ;
-//
-//	it grows as the no of pages increase and it never is cleared and since we hardcode path we need to add new temp manually ;
-//
-// error would only be discovered on second run (on cache access) ;
-//
-//	this is efficeint not good
-func createTempleteCache(t string) error {
+// this is the simplest solution ; wors well if small no of files
+// it grows as the no of pages increase and it never is cleared and since we hardcode path we need to add new temp manually
+// error would only be discovered on second run (on cache access)
+// this is efficeint not good
+func createTempleteCacheV0(t string) error {
 	templates := []string{
 		fmt.Sprintf("/home/ihtgoot/web_dev/Section_3/templates/%s", t),
 		"/home/ihtgoot/web_dev/Section_3/templates/base-layout.html",
@@ -71,7 +70,83 @@ func createTempleteCache(t string) error {
 	}
 
 	// add templete to cache map
-	templeteCache[t] = tmpl
+	templeteCacheV0[t] = tmpl
 
 	return nil
+}
+
+// satatic cache : on every time application caceh is build and it holds everything that ends with .html or .tpml
+// easieer to mainatian and felxible to adjustment
+// caceh is available everytime on startup entirely , nothing has to be build everythime thus reducing responase time
+// Disadvantage : change to conetent is not immediately visible : we can have a turaround by making a config file to disable cache
+func RenderTemplate(w http.ResponseWriter, tpml string) {
+
+	// create template static cache
+	templeteCache, err := createTempleteCache()
+	if err != nil {
+		log.Fatalln("error creating template cacahe ", err)
+	}
+
+	// get the right template from cache
+	t, ok := templeteCache[tpml]
+	if !ok {
+		log.Fatalln("template not in cacahe for some reason\n", err)
+	}
+
+	// check if t has a valid template ;
+	// store the resualt of t in a buffer and double-check if it is valid value
+	buff := new(bytes.Buffer)
+	err = t.Execute(buff, nil)
+	if err != nil {
+		log.Println(err)
+	}
+
+	//render the template
+	_, err = buff.WriteTo(w)
+	if err != nil {
+		fmt.Println("error parsing ", err)
+	}
+
+	//parseTemplate, err := template.ParseFiles("/home/ihtgoot/web_dev/Section_3/templates/"+tpml, "/home/ihtgoot/web_dev/Section_3/templates/base-layout.html")
+	//if err != nil {
+	//	fmt.Println("errro parsing template ", err)
+	//}
+	//err = parseTemplate.Execute(w, nil)
+	//if err != nil {
+	//	fmt.Println("errro executing template", err)
+	//}
+}
+
+// return template cache
+func CreateTempleteCache() (map[string]*template.Template, error) {
+	var Cacahe = make(map[string]*template.Template)
+	// get all files *-page.html from folder ./template
+	pages, err := filepath.Glob("/home/ihtgoot/web_dev/Section_3/templates/*-page.html")
+	if err != nil {
+		fmt.Println("errro in cacahing", err)
+	}
+	// range through kine of *-page.html
+	for _, page := range pages {
+		// page
+		name := filepath.Base(page)
+		templateSet, err := template.New(name).ParseFiles(page)
+		if err != nil {
+			return Cacahe, err
+		}
+		//base page
+		matche, err := filepath.Glob("/home/ihtgoot/web_dev/Section_3/templates/*-layout.html")
+		if err != nil {
+			return Cacahe, err
+		}
+		// use base
+		if len(matche) > 0 {
+			templateSet, err = templateSet.ParseGlob("/home/ihtgoot/web_dev/Section_3/templates/*layout.html")
+			if err != nil {
+				return Cacahe, err
+			}
+		}
+		// adding the page to cacahe
+		Cacahe[name] = templateSet
+	}
+	return Cacahe, nil
 }

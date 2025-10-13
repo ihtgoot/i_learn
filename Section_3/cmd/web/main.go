@@ -2,10 +2,13 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
+	"github.com/ihtgoot/i_learn/Section_3/pkg/config"
 	"github.com/ihtgoot/i_learn/Section_3/pkg/handlers"
 	"github.com/ihtgoot/i_learn/Section_3/pkg/helper"
+	"github.com/ihtgoot/i_learn/Section_3/pkg/rendrer"
 )
 
 const portNumber string = ":8080"
@@ -31,16 +34,26 @@ func Divide(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
+	var app config.AppConfig
+	// create template static cache
+	templeteCache, err := rendrer.CreateTempleteCache()
+	if err != nil {
+		log.Fatalln("error creating template cacahe ", err)
+	}
+
+	app.TemplateCacahe = templeteCache
+
 	fmt.Println("start server")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var owner, saying string
 		owner, saying = helper.Getdata()
-		n, err := fmt.Fprint(w, fmt.Sprintf("<html>this is the about page <br> %s said \" %s \" %d times</html>", owner, saying, addValues(4949, 5948)))
+		n, err := fmt.Fprintf(w, fmt.Sprintf("<html>this is the about page <br> %s said \" %s \" %d times</html>", owner, saying, addValues(4949, 5948)))
 		if err != nil {
 			fmt.Println(err)
 		}
-		fmt.Println(fmt.Sprintf("\nBytes Written: n : %d", n))
+		fmt.Printf(fmt.Sprintf("\nBytes Written: n : %d", n))
 	})
 
 	//http.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
