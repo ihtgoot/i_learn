@@ -36,13 +36,23 @@ func Divide(w http.ResponseWriter, r *http.Request) {
 func main() {
 
 	var app config.AppConfig
+
 	// create template static cache
 	templeteCache, err := rendrer.CreateTempleteCache()
 	if err != nil {
 		log.Fatalln("error creating template cacahe ", err)
+	} else {
+		fmt.Println("cache made")
 	}
 
+	// string cacahe in cacahe but using config
 	app.TemplateCacahe = templeteCache
+	fmt.Scanf("%b", app.UseCache)
+
+	repo := handlers.NewRepo(&app)
+	handlers.NewHandlers(repo)
+
+	rendrer.NewTemplate(&app)
 
 	fmt.Println("start server")
 
@@ -63,8 +73,8 @@ func main() {
 	//	}
 	//	fmt.Printf(fmt.Sprintf("\nBytes Writen :n : %d", n))
 	//})
-	http.HandleFunc("/home", handlers.Home)
-	http.HandleFunc("/About", handlers.About)
+	http.HandleFunc("/home", handlers.Repo.Home)
+	http.HandleFunc("/About", handlers.Repo.About)
 	http.HandleFunc("/Divide", Divide)
 
 	fmt.Println("we started on port number : ", portNumber)
