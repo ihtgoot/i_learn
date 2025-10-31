@@ -47,7 +47,7 @@ func main() {
 
 	// string cacahe in cacahe but using config
 	app.TemplateCacahe = templeteCache
-	fmt.Scanf("%b", app.UseCache)
+	app.UseCache = true
 
 	repo := handlers.NewRepo(&app)
 	handlers.NewHandlers(repo)

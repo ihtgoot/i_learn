@@ -7,6 +7,9 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/ihtgoot/i_learn/Section_3/pkg/config"
+	"github.com/ihtgoot/i_learn/Section_3/pkg/models"
 )
 
 // render templete server as a wrapper and a reader
@@ -28,7 +31,7 @@ func RenderTemplateTempV0(w http.ResponseWriter, tpml string) {
 }
 
 // custm template cache
-var templeteCacheV0 = make(map[string]*template.Template) //this is our cache : any time ewe can sefch out template and it return the whole conten
+var templeteCacheV0 = make(map[string]*template.Template) //this is our cache : any time we can seach out template and it return the whole content
 func RenderTemplateCacheDynamic(w http.ResponseWriter, t string) {
 	var tmpl *template.Template
 	var err error
@@ -79,24 +82,40 @@ func createTempleteCacheV0(t string) error {
 // easieer to mainatian and felxible to adjustment
 // caceh is available everytime on startup entirely , nothing has to be build everythime thus reducing responase time
 // Disadvantage : change to conetent is not immediately visible : we can have a turaround by making a config file to disable cache
-func RenderTemplate(w http.ResponseWriter, tpml string) {
+var app *config.AppConfig
 
-	// create template static cache
-	templeteCache, err := createTempleteCache()
-	if err != nil {
-		log.Fatalln("error creating template cacahe ", err)
+func NewTemplate(a *config.AppConfig) {
+	app = a
+}
+
+func RenderTemplate(w http.ResponseWriter, tpml string, td *models.TemplateData) {
+
+	var templateCache map[string]*template.Template
+	if app.UseCache {
+		templateCache = app.TemplateCacahe
+	} else {
+		templateCache, _ = CreateTempleteCache()
 	}
 
+	// create template static cache
+	// templeteCache, err := CreateTempleteCache()
+	// if err != nil {
+	// 	log.Fatalln("error creating template cacahe ", err)
+	// }
+
+	// get templateCache from appconfig
+
 	// get the right template from cache
-	t, ok := templeteCache[tpml]
+	t, ok := templateCache[tpml]
 	if !ok {
-		log.Fatalln("template not in cacahe for some reason\n", err)
+		log.Fatalln("template not in cacahe for some reason\n", ok)
 	}
 
 	// check if t has a valid template ;
 	// store the resualt of t in a buffer and double-check if it is valid value
 	buff := new(bytes.Buffer)
-	err = t.Execute(buff, nil)
+
+	err := t.Execute(buff, td)
 	if err != nil {
 		log.Println(err)
 	}
