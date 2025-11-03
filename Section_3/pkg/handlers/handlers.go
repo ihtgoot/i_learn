@@ -30,13 +30,21 @@ func NewHandlers(r *Repository) {
 
 // handeler of home page
 func (h *Repository) Home(w http.ResponseWriter, r *http.Request) {
+
+	// store remote IP of user
+	remoteIP := r.RemoteAddr
+	h.App.Session.Put(r.Context(), "remote_ip", remoteIP)
+
 	rendrer.RenderTemplate(w, "home-page.html", &models.TemplateData{})
 }
 
 // handels about page
 func (a *Repository) About(w http.ResponseWriter, r *http.Request) {
+	//a.App.Session
 	sidekickmap := make(map[string]string)
 	sidekickmap["morty"] = "ooh , wee"
+	remoteIP := a.App.Session.GetString(r.Context(), "remote_ip")
+	sidekickmap["remote_ip"] = remoteIP
 	rendrer.RenderTemplate(w, "about-page.html", &models.TemplateData{
 		StringMap: sidekickmap,
 	})

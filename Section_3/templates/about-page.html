@@ -13,14 +13,19 @@
         <tr><td>really cool idk</td></tr>
         <tr><td>i hate my life</td></tr>
         <tr><td>fuck lpu </td></tr>
-        <tr><td> {{index .StringMap "morty"}}
- fuck lpu </td></tr>
         <tr><td>fuck lpu </td></tr>
         <tr><td>i will not jump in march</td></tr>
     </table>
     <p>
         fff8asdfbdsfubwdubf ds fdabbb dsss
         {{index .StringMap "morty"}}
+    </p>
+    <p>
+        {{ if ne (index .StringMap "remote_ip") "" }}
+        your IP is {{index .StringMap "remote_ip"}}
+        {{else}}
+        no ip found 
+        {{end}}
     </p>
     </div>
 {{end}}

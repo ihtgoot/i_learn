@@ -82,6 +82,13 @@ func createTempleteCacheV0(t string) error {
 // easieer to mainatian and felxible to adjustment
 // caceh is available everytime on startup entirely , nothing has to be build everythime thus reducing responase time
 // Disadvantage : change to conetent is not immediately visible : we can have a turaround by making a config file to disable cache
+
+// AddDefault contains DATA which will be added to data sent to template
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+
+	return td
+}
+
 var app *config.AppConfig
 
 func NewTemplate(a *config.AppConfig) {
@@ -114,6 +121,8 @@ func RenderTemplate(w http.ResponseWriter, tpml string, td *models.TemplateData)
 	// check if t has a valid template ;
 	// store the resualt of t in a buffer and double-check if it is valid value
 	buff := new(bytes.Buffer)
+
+	td = AddDefaultData(td)
 
 	err := t.Execute(buff, td)
 	if err != nil {
