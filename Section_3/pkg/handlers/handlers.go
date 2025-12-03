@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"net/http"
-
 	"github.com/ihtgoot/i_learn/Section_3/pkg/config"
 	"github.com/ihtgoot/i_learn/Section_3/pkg/models"
 	"github.com/ihtgoot/i_learn/Section_3/pkg/rendrer"

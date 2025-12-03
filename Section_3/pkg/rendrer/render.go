@@ -12,6 +12,16 @@ import (
 	"github.com/ihtgoot/i_learn/Section_3/pkg/models"
 )
 
+
+
+
+
+
+
+
+
+
+
 // render templete server as a wrapper and a reader
 // a layout and a template from folder /templete to describe writer
 
@@ -77,6 +87,17 @@ func createTempleteCacheV0(t string) error {
 
 	return nil
 }
+
+
+
+
+
+
+
+
+
+
+
 
 // satatic cache : on every time application caceh is build and it holds everything that ends with .html or .tpml
 // easieer to mainatian and felxible to adjustment
