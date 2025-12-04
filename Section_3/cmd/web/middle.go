@@ -17,7 +17,7 @@ func hitLogger(next http.Handler) http.Handler {
 }
 
 // NoSurd server as a CSRF protection middleware
-func NoSurd(next http.Handler) http.Handler {
+func NoSurf(next http.Handler) http.Handler {
 	csrfHandler := nosurf.New(next)
 
 	csrfHandler.SetBaseCookie(http.Cookie{
@@ -26,7 +26,7 @@ func NoSurd(next http.Handler) http.Handler {
 		Secure:   app.InProduction,
 		SameSite: http.SameSiteLaxMode,
 	})
-	fmt.Println(csrfHandler)
+	//fmt.Println(csrfHandler) handler struct internal_pointers	cookie_config	flags
 	return csrfHandler
 }
 

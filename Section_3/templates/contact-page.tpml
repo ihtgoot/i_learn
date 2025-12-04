@@ -1,0 +1,13 @@
+{{template "base" .}}
+ <div class="container mt-5">
+
+        <div class="row">
+            <div class="col">
+                <h1 class="text-center">Contact</h1>
+            </div>
+        </div>
+    </div>
+
+{{define "content"}}
+ 
+{{end}}

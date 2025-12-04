@@ -7,10 +7,10 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/ihtgoot/i_learn/Section_3/pkg/config"
-	"github.com/ihtgoot/i_learn/Section_3/pkg/handlers"
-	"github.com/ihtgoot/i_learn/Section_3/pkg/helper"
-	"github.com/ihtgoot/i_learn/Section_3/pkg/rendrer"
+	"github.com/ihtgoot/i_learn/Section_3/internal/config"
+	"github.com/ihtgoot/i_learn/Section_3/internal/handlers"
+	"github.com/ihtgoot/i_learn/Section_3/internal/helper"
+	"github.com/ihtgoot/i_learn/Section_3/internal/rendrer"
 )
 
 var app config.AppConfig

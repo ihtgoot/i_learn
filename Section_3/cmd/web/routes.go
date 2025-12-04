@@ -6,13 +6,25 @@ import (
 
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
-	"github.com/ihtgoot/i_learn/Section_3/pkg/config"
-	"github.com/ihtgoot/i_learn/Section_3/pkg/handlers"
-	"github.com/ihtgoot/i_learn/Section_3/pkg/helper"
+	"github.com/ihtgoot/i_learn/Section_3/internal/config"
+	"github.com/ihtgoot/i_learn/Section_3/internal/handlers"
+	"github.com/ihtgoot/i_learn/Section_3/internal/helper"
+	"github.com/justinas/nosurf"
 )
 
 func labadaba(w http.ResponseWriter, r *http.Request) {
 	var owner, saying string
+
+	token := nosurf.Token(r)
+
+	// fmt.Fprintf(w, `
+	// 	<form method="POST" action="/submit">
+	// 		<input type="hidden" name="csrf_token" value="%s">
+	// 		<button type="submit">Send</button>
+	// 	</form>
+	// `, token)
+	fmt.Println(token)
+
 	owner, saying = helper.Getdata()
 	n, err := fmt.Fprintf(w, fmt.Sprintf("<html>this is the about page <br> %s said \" %s \" times</html>", owner, saying, addValues(4949, 5948)))
 	if err != nil {
@@ -25,12 +37,21 @@ func routes(app *config.AppConfig) http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
-	mux.Use(NoSurd)
+	mux.Use(hitLogger)
+	mux.Use(NoSurf)
 	mux.Use(SessionLoad)
 
-	mux.Get("/", labadaba)
-	mux.Get("/home", handlers.Repo.Home)
+	// mux.Get("/", labadaba)
+	mux.Get("/", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
+	mux.Get("/contact", handlers.Repo.Contact)
+	mux.Get("/eremite", handlers.Repo.Eremite)
+	mux.Get("/couple", handlers.Repo.Couple)
+	mux.Get("/family", handlers.Repo.Family)
+	mux.Get("/reservation", handlers.Repo.Reservation)
+	mux.Post("/reservation", handlers.Repo.POST_Reservation)
+	mux.Post("/reservation-json", handlers.Repo.ReservationJSON)
+	mux.Get("/make-reservation", handlers.Repo.Make_Reservation)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))

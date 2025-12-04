@@ -1,0 +1,63 @@
+{{template "base" .}}
+
+{{define "content"}}
+     <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h1 class="text-center">Check Availability</h1>
+                <form class="row g-3 needs-validation" id="reservation-dates" novalidate action="" method="POST" >
+                  <div class="col mb-3">
+                          <input required type="text" class="form-control" name="startingDate" id="startingDate" placeholder="arrival date">
+                    </div>
+                    <div class="col mb-3">
+                      <input required type="text" class="form-control" name="endingDate" id="endingDate" placeholder="departure date">  
+                    </div>
+
+                    <hr>
+                    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                    
+                    <div class="col">
+                        <button type="submit" class="btn btn-success mb-3">Check Availability</button>
+                    </div>                    
+                  </form>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <p id="forTestingOnly">this is is just a test</p>  
+            <buttom id="clickButton" class="btn btn-secondary"> Dabao na baby </button>
+          </div>
+        </div>
+    </div>
+
+{{end}}
+
+{{define "js"}}
+  <script>
+  const elem = document.getElementById('reservation-dates');
+  const rangepicker = new DateRangePicker(elem, {
+   format: 'dd-mm-yyyy'
+  });
+
+      document.getElementById("clickButton").addEventListener("click", function(){
+        let html = `
+          <form id = 'check_availibility' action="" method="POST" class="need validation">
+            <div class="row g-3" id="reservation-date-modal">
+              <div class= "col">
+                <input disabled required class="form-control" type="text" name="start" id="start" placeholder="arrival">
+              </div>
+              <div class= "col">
+                <input disabled required class="form-control" type="text" name="end" id="end" placeholder="departure">
+              </div>
+            </div>
+          </form>
+        `;
+        attention.custom({
+          title: "check banglow\ 's availability" ,
+          text: html,
+        })
+        // notifyModel("thoda arram sa","<em><b>do you like it ?</b></em>", "question", "stop it now !!!");
+      })
+  </script>
+{{end}} 
