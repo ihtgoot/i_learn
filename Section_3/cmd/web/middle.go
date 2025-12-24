@@ -2,19 +2,18 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/justinas/nosurf"
 )
 
-func hitLogger(next http.Handler) http.Handler {
-	//useless
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Println("working")
-		next.ServeHTTP(w, r)
-	})
-}
+// func hitLogger(next http.Handler) http.Handler {
+// 	//useless
+// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+// 		log.Println("working")
+// 		next.ServeHTTP(w, r)
+// 	})
+// }
 
 // NoSurd server as a CSRF protection middleware
 func NoSurf(next http.Handler) http.Handler {

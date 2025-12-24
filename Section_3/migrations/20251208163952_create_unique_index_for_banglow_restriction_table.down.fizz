@@ -1,0 +1,9 @@
+drop_index("banglowRestriction","banglowRestriction_start_date_end_date_idx")
+drop_index("banglowRestriction","banglowRestriction_banglow_id_idx")
+drop_index("banglowRestriction","banglowRestriction_reservation_id_idx")
+drop_index("banglowRestriction","banglowRestriction_restriction_id_idx")
+
+
+
+
+

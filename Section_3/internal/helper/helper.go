@@ -1,6 +1,8 @@
 package helper
 
-import "errors"
+import (
+	"errors"
+)
 
 func Getdata() (string, string) {
 	o := "Rick Sanches"
@@ -17,3 +19,23 @@ func Dividevalue(a, b float64) (float64, error) {
 	result := a / b
 	return result, nil
 }
+
+// adds 2 values int
+func AddValues(a, b int) int {
+	return a + b
+}
+
+// // handels divides , takes 2 input and divides them
+// func Divide(w http.ResponseWriter, r *http.Request) {
+// 	var x, y float64
+// 	fmt.Print("x:")
+// 	fmt.Scan(&x)
+// 	fmt.Print("y:")
+// 	fmt.Scan(&y)
+// 	f, err := helper.Dividevalue(x, y)
+// 	if err != nil {
+// 		fmt.Fprintf(w, fmt.Sprintln(err))
+// 	} else {
+// 		fmt.Fprintf(w, fmt.Sprintf("%f/%f = %f", x, y, f))
+// 	}
+// }

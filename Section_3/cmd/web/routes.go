@@ -26,18 +26,19 @@ func labadaba(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(token)
 
 	owner, saying = helper.Getdata()
-	n, err := fmt.Fprintf(w, fmt.Sprintf("<html>this is the about page <br> %s said \" %s \" times</html>", owner, saying, addValues(4949, 5948)))
+	html := fmt.Sprintf("<html>this is the about page <br> %s said \" %s \" times</html>", owner, saying)
+	n, err := fmt.Fprint(w, html)
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Printf(fmt.Sprintf("\nBytes Written: n : %d", n))
+	fmt.Printf("\nBytes Written: n : %d", n)
 }
 
 func routes(app *config.AppConfig) http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
-	mux.Use(hitLogger)
+	//mux.Use(hitLogger)
 	mux.Use(NoSurf)
 	mux.Use(SessionLoad)
 
@@ -52,6 +53,8 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Post("/reservation", handlers.Repo.POST_Reservation)
 	mux.Post("/reservation-json", handlers.Repo.ReservationJSON)
 	mux.Get("/make-reservation", handlers.Repo.Make_Reservation)
+	mux.Post("/make-reservation", handlers.Repo.Make_ReservationPOST)
+	mux.Get("/reservation-overview", handlers.Repo.ReservationOverview)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))

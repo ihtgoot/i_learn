@@ -1,0 +1,4 @@
+add_index("banglowRestriction",["start_date","end_date"],{})
+add_index("banglowRestriction","banglow_id",{})
+add_index("banglowRestriction","reservation_id",{})
+add_index("banglowRestriction","restriction_id",{})

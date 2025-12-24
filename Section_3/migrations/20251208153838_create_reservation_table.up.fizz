@@ -1,0 +1,9 @@
+create_table("reservation"){
+    t.Column("id","integer",{primary: true})
+    t.Column("full_name","string",{"default":""})
+    t.Column("email","string",{})
+    t.Column("phone","string",{})
+    t.Column("start_date","date",{})
+    t.Column("end_date","date",{})
+    t.Column("banglow_id","integer",{})
+}

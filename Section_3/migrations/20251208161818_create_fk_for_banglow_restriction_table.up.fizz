@@ -1,0 +1,14 @@
+add_foreign_key("banglowRestriction","banglow_id",{"banglow":["id"]},{
+    "on_delete":"cascade",
+    "on_update":"cascade",
+})
+
+add_foreign_key("banglowRestriction","restriction_id",{"Restriction":["id"]},{
+    "on_delete":"cascade",
+    "on_update":"cascade",
+})
+
+add_foreign_key("banglowRestriction","reservation_id",{"reservation":["id"]},{
+    "on_delete":"cascade",
+    "on_update":"cascade",
+})

@@ -1,0 +1,4 @@
+add_index("reservation",["email","phone","full_name"],{})
+add_index("reservation","id",{})
+add_index("reservation",["start_date","end_date"],{})
+add_index("reservation","banglow_id",{})

@@ -1,0 +1,5 @@
+create_table("banglow") {
+  t.Column("id", "integer", {primary : true})
+  t.Column("banglow_name", "string", {"default": ""})
+}
+
