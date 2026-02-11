@@ -50,24 +50,69 @@
 
 {{define "js"}}
   <script>
-      document.getElementById("check-availability-button").addEventListener("click", function(){
-        let html = `
-          <form id = 'check_availibility' action="" method="POST" class="need validation">
-            <div class="row g-3" id="reservation-date-modal">
-              <div class= "col">
-                <input disabled required class="form-control" type="text" name="start" id="start" placeholder="arrival">
-              </div>
-              <div class= "col">
-                <input disabled required class="form-control" type="text" name="end" id="end" placeholder="departure">
-              </div>
-            </div>
-          </form>
-        `;
-        attention.custom({
-          title: "check banglow\ 's availability" ,
-          text: html,
+    document.getElementById("check-availability-button").addEventListener("click", function() {
+    let html = `
+      <form id="check-availability-form" action="" method="POST" novalidate class="needs validation">
+        <div class="row g-3" id="reservation-dates-modal">
+          <div class="col">
+            <input disabled required class="form-control" type="text" name="start" id="start" placeholder="Arrival">
+          </div>
+          <div class="col">
+            <input disabled required class="form-control" type="text" name="end" id="end" placeholder="Departure">
+          </div>
+        </div>
+      </form>
+    `;
+
+    attention.custom({
+      title: 'Check Bungalow\'s Availability',
+      msg: html,
+      willOpen: () => {
+        const elem = document.getElementById("reservation-dates-modal");
+        const rp = new DateRangePicker(elem, {
+          format: 'yyyy-mm-dd',
+          minDate: new Date(),
+          showOnFocus: true,
         })
-        // notifyModel("thoda arram sa","<em><b>do you like it ?</b></em>", "question", "stop it now !!!");
-      })
+      },
+      didOpen: () => {
+        document.getElementById('start').removeAttribute("disabled"),
+        document.getElementById('end').removeAttribute("disabled");
+      },
+      callback: function(result) {
+        console.log("Wubba Lubba Dub Dub!");
+
+        let form = document.getElementById("check-availability-form");
+        let = formData = new FormData(form);
+        formData.append("csrf_token", "{{.CSRFToken}}");
+        formData.append("banglow_id", "2")
+
+        fetch('/reservation-json', {
+          method: "POST",
+          body: formData,
+        })
+        .then(response => response.json())
+        .then (data => {
+          if (data.ok) {
+            //console.log("Available.")
+            attention.custom(({
+              icon: 'success',
+              showConfirmButton : false,
+              msg : '<p>property is available !</p>'+
+                    '<p><a href="/book-banglow?id='+ 
+                    data.banglow_id +
+                    '&s='+data.start_date+'&e='+data.end_date+
+                    '" class="btn btn-primary">Book Now!</a></p>' 
+            }))
+          } else {
+            //console.log("not Available.")
+            attention.error(({
+              msg : "not availanble",
+            }));
+          }
+        })
+      }
+    });
+  })
   </script>
-{{end}} 
+{{end}}

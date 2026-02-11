@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/ihtgoot/i_learn/Section_3/internal/config"
+	"github.com/ihtgoot/i_learn/Section_3/internal/repository"
 )
 
 type postgresDBrepo struct {

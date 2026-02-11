@@ -52,10 +52,11 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/reservation", handlers.Repo.Reservation)
 	mux.Post("/reservation", handlers.Repo.POST_Reservation)
 	mux.Post("/reservation-json", handlers.Repo.ReservationJSON)
+	mux.Get("/choose-banglow/{id}", handlers.Repo.ChooseBanglow)
+	mux.Get("/book-banglow", handlers.Repo.BookBanglow)
 	mux.Get("/make-reservation", handlers.Repo.Make_Reservation)
 	mux.Post("/make-reservation", handlers.Repo.Make_ReservationPOST)
 	mux.Get("/reservation-overview", handlers.Repo.ReservationOverview)
-
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
 

@@ -2,16 +2,25 @@
 
 {{define "content"}}
 
+{{$res := index .Data "reservation"}}
+
  <div class="container mt-5">
       <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
                 <h1 class="text-center">Make A Reservation</h1> 
-
-                {{$res := index .Data "reservation"}}
-                
-                <form action="./make-reservation" method="POST" novalidate>
+                <p>
+                    <strong>Reservation Details</strong>
+                    Bunglow Name : {{$res.Banglow.BanglowName}}
+                    Arrival : {{index .StringMap "start_date"}} - Departure : {{index .StringMap "end_date"}}
+                </p>
+   
+                <form action="/make-reservation" method="POST" novalidate>
                 <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+                <input type="hidden" name="startingDate" value="{{index .StringMap "start_date"}}" >
+                <input type="hidden" name="endingDate"  value="{{index .StringMap "end_date"}}" >
+                <input id="vacationHome" type="hidden" name="vacationHome" value="{{$res.BanglowId}}">
+
                 <div class="form-group mt-3">
                     <label for="full_name">Full Name:</label>
                         
@@ -41,38 +50,28 @@
 
                     <input class="form-control {{with .Form.Errors.Get "phone"}}is-invalid{{end}}" id="phone" autocomplete="off" type='tel' name='phone' value="{{$res.Phone}}">
                 </div>
-
+<!--  
                 <hr>
 
-                <P>Interested in Reservation of the Vacation Home 
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="vacationHome" id="inlineCheckbox1" value="eremite" required>
+              <P>Interested in Reservation of the Vacation Home 
+                 <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="vacationHome" id="inlineCheckbox1" value="1" required>
                         <label class="form-check-label" for="inlineCheckbox1"><strong>Eremite (2 BR)</strong> - The Solitude Shack</label>
                     </div>
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="vacationHome" id="inlineCheckbox2" value="couple" required>
+                        <input class="form-check-input" type="radio" name="vacationHome" id="inlineCheckbox2" value="2" required>
                         <label class="form-check-label" for="inlineCheckbox2"><strong>Couple plus (3 BR)</strong> - The Couple's Cove</label>
                     </div>
 
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="vacationHome" id="inlineCheckbox3" value="family" required>
+                        <input class="form-check-input" type="radio" name="vacationHome" id="inlineCheckbox3" value="3" required>
                         <label class="form-check-label" for="inlineCheckbox3"><strong>Family & Friends (5 BR)</strong> - The Family Fiesta Bungalow</label>
                     </div>
                 </p>
-
-                <div class="row" id="reservation-dates">
-                    <div class="col form-floating mb-3">
-                        <input required type="date" class="form-control" name="startingDate" id="startingDate">
-                        <label for="startingDate">Arrival Date (YYYY-MM-DD)</label>
-                    </div>
-                    <div class="col form-floating mb-3">
-                        <input required type="date" class="form-control" name="endingDate" id="endingDate">
-                        <label for="endingDate">Departure Date (YYYY-MM-DD)</label>
-                    </div>
-                </div>
-
+            
                 <hr>
+-->
 
                 <input type="submit" class="btn btn-success" value="Make Reservation">
 

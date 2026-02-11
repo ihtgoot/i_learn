@@ -14,6 +14,8 @@ type AppConfig struct {
 	TemplateCacahe map[string]*template.Template
 	UseCache       bool
 	InfoLog        *log.Logger // handel errro centrally , write to a log file the errors
+	ErrorLog	   *log.Logger
 	InProduction   bool
 	Session        *scs.SessionManager
 }
+

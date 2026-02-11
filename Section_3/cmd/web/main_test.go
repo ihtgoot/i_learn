@@ -1,14 +1,12 @@
 package main
 
-import(
+import (
 	"testing"
-
 )
 
-func TestRun(t *testing.T){
-	err := run()
+func TestRun(t *testing.T) {
+	_, err := run()
 	if err != nil {
 		t.Error("Test failed : chutiya fata kuch")
 	}
 }
-

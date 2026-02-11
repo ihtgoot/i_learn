@@ -1,0 +1,17 @@
+{{template "base" . }}
+
+{{define "content"}}
+<div class="container mt-5">
+    <div class="row">
+        <div class = "col">
+            <h1 class="text-center">choose</h1>
+            <p>list :</p>
+            {{$banglows := index .Data "banglows"}}
+            <ul>
+                {{range $banglows}}
+                    <li><a href="/choose-banglow/{{.ID}}">{{.BanglowName}}</a></li>
+                {{end}}
+            </ul>
+        </div>
+    </div>
+{{end}}

@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
-\restrict yJ26Ba6QoF4BeZ73K6c320rRS2ZFj9CwDvkzHDrMBWpiDJuR3tc6oaYB2DjWpfT
+\restrict JkdCU1wKlVLiLcU3dZ5CKniWEhWZTqzKG5fMCLGhVsfwjad26KnmdFLyZTLXZtT
 
--- Dumped from database version 14.20 (Ubuntu 14.20-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.20 (Ubuntu 14.20-0ubuntu0.22.04.1)
+-- Dumped from database version 16.11 (Ubuntu 16.11-0ubuntu0.24.04.1)
+-- Dumped by pg_dump version 16.11 (Ubuntu 16.11-0ubuntu0.24.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -49,7 +49,7 @@ CREATE SEQUENCE public."Restriction_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public."Restriction_id_seq" OWNER TO postgres;
+ALTER SEQUENCE public."Restriction_id_seq" OWNER TO postgres;
 
 --
 -- Name: Restriction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -81,7 +81,7 @@ CREATE TABLE public."banglowRestriction" (
     start_date date NOT NULL,
     end_date date NOT NULL,
     banglow_id integer NOT NULL,
-    reservation_id integer NOT NULL,
+    reservation_id integer,
     created_at date NOT NULL,
     updated_at date NOT NULL,
     restriction_id integer NOT NULL
@@ -103,7 +103,7 @@ CREATE SEQUENCE public."banglowRestriction_id_seq"
     CACHE 1;
 
 
-ALTER TABLE public."banglowRestriction_id_seq" OWNER TO postgres;
+ALTER SEQUENCE public."banglowRestriction_id_seq" OWNER TO postgres;
 
 --
 -- Name: banglowRestriction_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -125,7 +125,7 @@ CREATE SEQUENCE public.banglow_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.banglow_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.banglow_id_seq OWNER TO postgres;
 
 --
 -- Name: banglow_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -166,7 +166,7 @@ CREATE SEQUENCE public.reservation_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.reservation_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.reservation_id_seq OWNER TO postgres;
 
 --
 -- Name: reservation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -216,7 +216,7 @@ CREATE SEQUENCE public.users_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.users_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
 
 --
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -323,13 +323,6 @@ CREATE INDEX "banglowRestriction_reservation_id_idx" ON public."banglowRestricti
 
 
 --
--- Name: banglowRestriction_restriction_id_idx; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX "banglowRestriction_restriction_id_idx" ON public."banglowRestriction" USING btree (restriction_id);
-
-
---
 -- Name: banglowRestriction_start_date_end_date_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -414,5 +407,5 @@ ALTER TABLE ONLY public.reservation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict yJ26Ba6QoF4BeZ73K6c320rRS2ZFj9CwDvkzHDrMBWpiDJuR3tc6oaYB2DjWpfT
+\unrestrict JkdCU1wKlVLiLcU3dZ5CKniWEhWZTqzKG5fMCLGhVsfwjad26KnmdFLyZTLXZtT
 

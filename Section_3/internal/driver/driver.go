@@ -27,8 +27,8 @@ func ConnectSQL(dsn string) (*DB, error) {
 	}
 
 	db.SetMaxOpenConns(maxOpenDBconn)
-	db.SetConnMaxLifetime(maxIdleDBconn)
-	db.SetConnMaxIdleTime(maxOpenDBconn)
+	db.SetConnMaxLifetime(maxDBLifeTime)
+	db.SetConnMaxIdleTime(maxIdleDBconn)
 
 	dbconn.SQl = db
 	err = testDB(db)
@@ -48,12 +48,12 @@ func testDB(db *sql.DB) error {
 }
 
 // creat new dataase
-func NewDatabase(dsn string) (*sql.DB, error) {
+func  NewDatabase(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		return nil, err
 	}
-	if err = db.Ping(); err != nil {
+	if err = testDB(db); err != nil {
 		return nil, err
 	}
 	return db, nil
